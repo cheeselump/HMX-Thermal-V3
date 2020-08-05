@@ -331,7 +331,7 @@ namespace HMX_Thermal_V3
                     else
                     { //in measuring state
                         state = "S0";
-                        SendToESP(state);
+                        //SendToESP(state);
                         if (temperature >= 38)
                         {
                             //Open Frame 4
@@ -398,7 +398,7 @@ namespace HMX_Thermal_V3
             else if (f == "F1")
             {
                 state = "S1";
-                SendToESP(state);
+                //SendToESP(state);
                 Frame1.Visibility = Visibility.Visible;
                 Frame2.Visibility = Visibility.Hidden;
                 Frame3.Visibility = Visibility.Hidden;
@@ -494,7 +494,7 @@ namespace HMX_Thermal_V3
             if (serialPort != null && serialPort.IsOpen == true)
             {
                 state = "S0";
-                SendToESP(state);
+                //SendToESP(state);
                 serialPort.Close();
                 //statusBar.Text = "Closed";
                //statusBar.Background = Brushes.LightGray;
