@@ -445,7 +445,7 @@ namespace HMX_Thermal_V3
 
         private void btnConnect_Click(object sender, RoutedEventArgs e)
         {
-            playTone();
+            //playTone();
             calibration = float.Parse(tbOffset.Text);
             if (cmb.SelectedValue != null)
             {
