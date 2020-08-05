@@ -113,7 +113,7 @@ namespace HMX_Thermal_V3
                         }
                         else if (receiveText.Text.Contains("(") && receiveText.Text.Contains(")"))
                         {
-                            processReadings(receiveText.Text);
+                            processReadings(receiveText.Text.Trim());
                             //receiveText.Clear();
                         }
                     })
