@@ -111,7 +111,7 @@ namespace HMX_Thermal_V3
                         {
                             //receiveText.Clear();
                         }
-                        else if (receiveText.Text.Length > 8 && receiveText.Text.Length < 14)
+                        else if (receiveText.Text.Contains("(") && receiveText.Text.Contains(")"))
                         {
                             processReadings(receiveText.Text);
                             //receiveText.Clear();
