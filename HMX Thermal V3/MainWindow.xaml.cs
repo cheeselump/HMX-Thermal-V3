@@ -208,7 +208,7 @@ namespace HMX_Thermal_V3
             else if (f == "F1")
             {
                 state = "S1";
-                SendToESP(state);
+                //SendToESP(state);
                 Frame1.Visibility = Visibility.Visible;
                 Frame2.Visibility = Visibility.Hidden;
                 Frame3.Visibility = Visibility.Hidden;
@@ -501,7 +501,7 @@ namespace HMX_Thermal_V3
                 btnDisconnect.IsEnabled = false;
                 btnConnect.IsEnabled = true;
                 serialPort = null;
-                navigateFrame("F0");
+                setFrame("F0");
             }
         }
 
