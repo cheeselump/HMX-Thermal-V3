@@ -40,7 +40,7 @@ namespace HMX_Thermal_V3
         {
             InitializeComponent();
             SelPort();
-            navigateFrame("F0");
+            setFrame("F0");
             
             btnDisconnect.IsEnabled = false;
             gridHelp.Visibility = Visibility.Hidden;
@@ -85,51 +85,59 @@ namespace HMX_Thermal_V3
 
         private void SerialPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            // Check connected or disconnected
-            if (serialPort == null) return;
-            if (serialPort.IsOpen == false) return;
-            receiveText.Dispatcher.Invoke(
-                    new Action(() =>
-                    {
-                        receiveText.Clear();
-                    })
-                );
-
-            // Show in the textbox
-            try
+            if (state == "S0")
             {
-                receiveText.Dispatcher.Invoke(
-                    new Action(() =>
-                    {
-                        while (serialPort.BytesToRead > 0)
-                        {
-                            string inbound = serialPort.ReadLine();
-                            //MessageBox.Show(inbound);
-                            receiveText.Text += inbound;
-                        }
-                        if (state == "S0")
-                        {
-                            //receiveText.Clear();
-                        }
-                        else if (receiveText.Text.Contains("(") && receiveText.Text.Contains(")"))
-                        {
-                            processReadings(receiveText.Text.Trim());
-                            //receiveText.Clear();
-                        }
-                    })
-
-                );
+                setFrame("F0");
             }
-            catch
+            else
             {
+                // Check connected or disconnected
+                if (serialPort == null) return;
+                if (serialPort.IsOpen == false) return;
                 receiveText.Dispatcher.Invoke(
-                    new Action(() =>
-                    {
-                        receiveText.Text = "!Error! cannot connect to " + serialPort.PortName;
-                    })
-                );
+                        new Action(() =>
+                        {
+                            receiveText.Clear();
+                        })
+                    );
+
+                // Show in the textbox
+                try
+                {
+                    receiveText.Dispatcher.Invoke(
+                        new Action(() =>
+                        {
+                            while (serialPort.BytesToRead > 0)
+                            {
+                                string inbound = serialPort.ReadLine();
+                                //MessageBox.Show(inbound);
+                                receiveText.Text += inbound;
+                            }
+                            if (state == "S0")
+                            {
+                                //receiveText.Clear();
+                            }
+                            else if (receiveText.Text.Contains("(") && receiveText.Text.Contains(")"))
+                            {
+                                processReadings(receiveText.Text.Trim());
+                                //receiveText.Clear();
+                            }
+                        })
+
+                    );
+                }
+                catch
+                {
+                    receiveText.Dispatcher.Invoke(
+                        new Action(() =>
+                        {
+                            receiveText.Text = "!Error! cannot connect to " + serialPort.PortName;
+                        })
+                    );
+                }
+                serialPort.DiscardInBuffer();
             }
-            serialPort.DiscardInBuffer();
+            
         }
 
         private void processReadings(string readings)
@@ -165,7 +173,7 @@ namespace HMX_Thermal_V3
                         mDistance = dist;
                         mTemp = temp;
                         // check fever
-                        if (temp > 35.9 && temp < 37.5)
+                        if (temp > 35.5 && temp < 37.5)
                         {
                             setFrame("F3");
                         }
@@ -198,17 +206,26 @@ namespace HMX_Thermal_V3
         {
             if (f == "F0")
             {
+
                 state = "S0";
                 Frame0.Visibility = Visibility.Visible;
-                Frame1.Visibility = Visibility.Hidden;
-                Frame2.Visibility = Visibility.Hidden;
-                Frame3.Visibility = Visibility.Hidden;
-                Frame4.Visibility = Visibility.Hidden;
+                Frame1.Visibility = Visibility.Collapsed;
+                Frame2.Visibility = Visibility.Collapsed;
+                Frame3.Visibility = Visibility.Collapsed;
+                Frame4.Visibility = Visibility.Collapsed;
+                if (serialPort != null && serialPort.IsOpen == true)
+                {
+                    serialPort.Close();
+                    serialPort = null;
+                    btnDisconnect.IsEnabled = false;
+                    btnConnect.IsEnabled = true;
+                }
             }
             else if (f == "F1")
             {
                 state = "S1";
                 //SendToESP(state);
+                Frame0.Visibility = Visibility.Collapsed;
                 Frame1.Visibility = Visibility.Visible;
                 Frame2.Visibility = Visibility.Hidden;
                 Frame3.Visibility = Visibility.Hidden;
@@ -270,7 +287,7 @@ namespace HMX_Thermal_V3
             else
             {
 
-                navigateFrame("F1");
+                setFrame("F1");
             }
         }
 
@@ -281,16 +298,16 @@ namespace HMX_Thermal_V3
             {
                 if (moveAwayCounter == 3)
                 {
-                    if (state == "S1")
+                    if (state == "S2")
                     {
-                        navigateFrame("F1");
+                        setFrame("F1");
                     }
 
                     moveAwayCounter = 0;
                 }
                 else
                 {
-                    if (state == "S1")
+                    if (state == "S2")
                     {
                         moveAwayCounter++;
                     }
@@ -301,7 +318,7 @@ namespace HMX_Thermal_V3
             {
                 if (Frame1.Visibility == Visibility.Visible) //if person is standing in front of counter during idle, ask to move closer
                 {
-                    navigateFrame("F2");
+                    setFrame("F2");
                 }
                 /*
                 if (measuringState == 0)
@@ -390,15 +407,16 @@ namespace HMX_Thermal_V3
             {
                 state = "S0";
                 Frame0.Visibility = Visibility.Visible;
-                Frame1.Visibility = Visibility.Hidden;
-                Frame2.Visibility = Visibility.Hidden;
-                Frame3.Visibility = Visibility.Hidden;
-                Frame4.Visibility = Visibility.Hidden;
+                Frame1.Visibility = Visibility.Collapsed;
+                Frame2.Visibility = Visibility.Collapsed;
+                Frame3.Visibility = Visibility.Collapsed;
+                Frame4.Visibility = Visibility.Collapsed;
             }
             else if (f == "F1")
             {
                 state = "S1";
                 //SendToESP(state);
+                Frame0.Visibility = Visibility.Collapsed;
                 Frame1.Visibility = Visibility.Visible;
                 Frame2.Visibility = Visibility.Hidden;
                 Frame3.Visibility = Visibility.Hidden;
@@ -479,7 +497,7 @@ namespace HMX_Thermal_V3
                         //statusBar.Background = Brushes.LimeGreen;
                         btnConnect.IsEnabled = false;
                         btnDisconnect.IsEnabled = true;
-                        navigateFrame("F1");
+                        setFrame("F1");
                     }
                     catch (Exception ex)
                     {
@@ -493,15 +511,18 @@ namespace HMX_Thermal_V3
         {
             if (serialPort != null && serialPort.IsOpen == true)
             {
-                state = "S0";
-                //SendToESP(state);
+                //state = "S0";
+
                 serialPort.Close();
-                //statusBar.Text = "Closed";
-               //statusBar.Background = Brushes.LightGray;
-                btnDisconnect.IsEnabled = false;
-                btnConnect.IsEnabled = true;
                 serialPort = null;
                 setFrame("F0");
+                //SendToESP(state);
+                //statusBar.Text = "Closed";
+                //statusBar.Background = Brushes.LightGray;
+                btnDisconnect.IsEnabled = false;
+                btnConnect.IsEnabled = true;
+
+                //setFrame("F0");
             }
         }
 

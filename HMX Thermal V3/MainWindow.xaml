@@ -28,7 +28,7 @@
 
         <TextBox x:Name="receiveText" TextChanged="receiveText_TextChanged" Panel.ZIndex="1"  Opacity="0.4" HorizontalAlignment="Center" Height="22" Margin="987,31,87,648" TextWrapping="Wrap" Text="{Binding Name}" Width="200" VerticalAlignment="Center" IsEnabled="False" Focusable="False" FontSize="16" SelectionBrush="{x:Null}" BorderBrush="{x:Null}" SelectionOpacity="0.6" Background="{x:Null}"/>
         <Button x:Name="btnDisconnect" Panel.ZIndex="2" Opacity="0.5" Content="Disconnect" HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" BorderBrush="{x:Null}" Background="White" Height="32" Click="disconnect_Click"/>
-        <Grid x:Name="Frame0" MinWidth="1280" MinHeight="720" Margin="0,0,-6,-19" Width="1280" Visibility="Hidden">
+        <Grid x:Name="Frame0" Panel.ZIndex="3" MinWidth="1280" MinHeight="720" Margin="0,0,-6,-19" Width="1280" Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="640"></ColumnDefinition>
                 <ColumnDefinition Width="640"></ColumnDefinition>
