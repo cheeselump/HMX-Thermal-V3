@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Threading;
 using System.Windows.Threading;
+using System.Media;
 
 namespace HMX_Thermal_V3
 {
@@ -34,6 +35,8 @@ namespace HMX_Thermal_V3
         float calibration = 0;
         int mDistance = 0;
         float mTemp = 0;
+        float acceptableReading = 35;
+        MediaPlayer myplayer = new MediaPlayer();
 
         DispatcherTimer timer = new DispatcherTimer();
         public MainWindow()
@@ -113,14 +116,13 @@ namespace HMX_Thermal_V3
                                 //MessageBox.Show(inbound);
                                 receiveText.Text += inbound;
                             }
-                            if (state == "S0")
+                            if (state == "S0" || state == "S5")
                             {
-                                //receiveText.Clear();
+                                receiveText.Clear();
                             }
                             else if (receiveText.Text.Contains("(") && receiveText.Text.Contains(")"))
                             {
                                 processReadings(receiveText.Text.Trim());
-                                //receiveText.Clear();
                             }
                         })
 
@@ -163,9 +165,20 @@ namespace HMX_Thermal_V3
                         {
                             mDistance = dist;
                             mTemp = temp;
-                            setFrame("F2");
-                            //navigateFrame("F2");
-                            //determineFrame(temp, dist);
+                            if (temp > acceptableReading && temp < 37.5)
+                            {
+                                setFrame("F3");
+                                playTone();
+                            }
+                            else if (temp >= 38)
+                            {
+                                setFrame("F4");
+                                playAlarm();
+                            }
+                            else
+                            {
+                                setFrame("F2");
+                            }
                         }
                     }
                     if (state == "S2")
@@ -173,30 +186,34 @@ namespace HMX_Thermal_V3
                         mDistance = dist;
                         mTemp = temp;
                         // check fever
-                        if (temp > 35.5 && temp < 37.5)
+                        if (temp > acceptableReading && temp < 37.5)
                         {
                             setFrame("F3");
+                            playTone();
                         }
                         else if (temp >= 38)
                         {
                             setFrame("F4");
+                            playAlarm();
+                        }
+                        else
+                        {
+                            f2lblDistance.Content = "Distance: " + mDistance.ToString() + "cm.";
                         }
                     }
-                    //determineFrame(temp, dist);
                 }
             }
         }
 
         private void playTone()
         {
-            MediaPlayer myplayer = new MediaPlayer();
-            var uri = new Uri("success.mp3", UriKind.Relative);
+            var uri = new Uri("beep.mp3", UriKind.Relative);
             myplayer.Open(uri);
             myplayer.Play();
         }
         private void playAlarm()
         {
-            MediaPlayer myplayer = new MediaPlayer();
+            //MediaPlayer myplayer = new MediaPlayer();
             var uri = new Uri("alert.mp3", UriKind.Relative);
             myplayer.Open(uri);
             myplayer.Play();
@@ -246,7 +263,6 @@ namespace HMX_Thermal_V3
             else if (f == "F3")
             {
                 state = "S3";
-                playTone();
                 //Set Temp Value for Frame 3
                 f3lblTemp.Content = "Temperature: " + mTemp.ToString() + "°C";
                 restartFrame();
@@ -259,7 +275,7 @@ namespace HMX_Thermal_V3
             else if (f == "F4")
             {
                 state = "S4";
-                playAlarm();
+                //playAlarm();
                 if (feverCounter == 0)
                 {
                     feverCounter++;
@@ -326,7 +342,7 @@ namespace HMX_Thermal_V3
                     //if not meaasuring
                     navigateFrame("F2");
                 }*/
-                if (temperature < 36) //if too far
+                if (temperature < acceptableReading) //if too far
                 {
                     f2txtBlkTop.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 185, 7, 7));
                     f2txtBlkMid.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 185, 7, 7));
@@ -389,15 +405,17 @@ namespace HMX_Thermal_V3
 
         private void restartFrame()
         {
-            timer.Interval = TimeSpan.FromSeconds(5);
+            timer.Interval = TimeSpan.FromSeconds(4);
             timer.Tick += timer_Tick;
             timer.Start();
         }
         void timer_Tick(object sender, EventArgs e)
         {
+            state = "S5";
             mDistance = 0;
             mTemp = 0;
-            navigateFrame("F1");
+            setFrame("F1");
+            myplayer.Close();
             timer.Stop();
         }
 
@@ -465,6 +483,7 @@ namespace HMX_Thermal_V3
         {
             //playTone();
             calibration = float.Parse(tbOffset.Text);
+            acceptableReading = float.Parse(tbBaselineTemp.Text);
             if (cmb.SelectedValue != null)
             {
                 // Get serial-port name

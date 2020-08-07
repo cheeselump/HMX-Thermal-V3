@@ -26,9 +26,9 @@
     </Window.Resources>
     <Grid x:Name="MainFrame">
 
-        <TextBox x:Name="receiveText" TextChanged="receiveText_TextChanged" Panel.ZIndex="1"  Opacity="0.4" HorizontalAlignment="Center" Height="22" Margin="987,31,87,648" TextWrapping="Wrap" Text="{Binding Name}" Width="200" VerticalAlignment="Center" IsEnabled="False" Focusable="False" FontSize="16" SelectionBrush="{x:Null}" BorderBrush="{x:Null}" SelectionOpacity="0.6" Background="{x:Null}"/>
+        <TextBox x:Name="receiveText" TextChanged="receiveText_TextChanged" Panel.ZIndex="1"  Opacity="0.6" HorizontalAlignment="Center" Height="43" Margin="925,31,87,627" TextWrapping="Wrap" Text="{Binding Name}" Width="262" VerticalAlignment="Center" IsEnabled="False" Focusable="False" FontSize="18" SelectionBrush="{x:Null}" BorderBrush="{x:Null}" SelectionOpacity="0.6" Background="{x:Null}"/>
         <Button x:Name="btnDisconnect" Panel.ZIndex="2" Opacity="0.5" Content="Disconnect" HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" BorderBrush="{x:Null}" Background="White" Height="32" Click="disconnect_Click"/>
-        <Grid x:Name="Frame0" Panel.ZIndex="3" MinWidth="1280" MinHeight="720" Margin="0,0,-6,-19" Width="1280" Visibility="Hidden">
+        <Grid x:Name="Frame0" Panel.ZIndex="3" MinWidth="1280" MinHeight="720" Margin="0,0,-6,-19" Width="1280">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="640"></ColumnDefinition>
                 <ColumnDefinition Width="640"></ColumnDefinition>
@@ -40,15 +40,17 @@
                 <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Width="601" Margin="10,0,9,0" Foreground="White"/>
                 <Label Content="V3.00 | Build 0408" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="36" Width="601" Margin="10,0,9,0" Foreground="White"/>
             </StackPanel>
-            <StackPanel Grid.Column="1" HorizontalAlignment="Center" Height="342" Margin="132,176,138,202" VerticalAlignment="Center" Width="370">
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center" Height="403" Margin="132,115,138,202" VerticalAlignment="Center" Width="370">
                 <Label Content="Temperature Offset" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="#FF767676" Height="45" HorizontalAlignment="Center" Width="370"/>
-                <TextBox x:Name="tbOffset" Height="60" FontSize="30" TextWrapping="Wrap" Text="1" VerticalContentAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="370"/>
-                <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="180,0" Foreground="White" Height="26" HorizontalAlignment="Center"/>
+                <TextBox x:Name="tbOffset" Height="50" FontSize="30" TextWrapping="Wrap" Text="1" VerticalContentAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="370"/>
+                <Label Content="Temperature Baseline" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="#FF767676" Height="45" HorizontalAlignment="Center" Width="370"/>
+                <TextBox x:Name="tbBaselineTemp" Height="50" FontSize="30" TextWrapping="Wrap" Text="35" VerticalContentAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="370"/>
+                <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="180,0" Foreground="White" Height="17" HorizontalAlignment="Center"/>
 
-                <ComboBox x:Name="cmb" Height="60" FontSize="24"/>
-                <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="10,0" Foreground="White" Height="26" HorizontalAlignment="Center"/>
-                <Button x:Name="btnConnect" IsDefault="True" Content="Connect" Height="60" FontSize="24" Click="btnConnect_Click"/>
-                <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="10,0" Foreground="White" Height="24"/>
+                <ComboBox x:Name="cmb" Height="50" FontSize="24"/>
+                <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="180,0" Foreground="White" Height="17" HorizontalAlignment="Center"/>
+                <Button x:Name="btnConnect" IsDefault="True" Content="Connect" Height="50" FontSize="24" Click="btnConnect_Click"/>
+                <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="10,0" Foreground="White" Height="15"/>
                 <Button x:Name="btnHelp" Content="Having trouble connecting?" Height="60" Background="{x:Null}" Foreground="#FF767676" FontSize="18" BorderBrush="{x:Null}" Click="btnHelp_Click" ForceCursor="True"/>
 
             </StackPanel>
@@ -72,9 +74,10 @@
 
             </StackPanel>
             <StackPanel Grid.Column="1" HorizontalAlignment="Center" Height="368" Margin="10,298,10,54" VerticalAlignment="Center" Width="620">
-                <TextBlock Text="Stand within the yellow box to begin." FontSize="36" Foreground="#FF6B4F01" Margin="10" Style="{StaticResource FaderStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600"/>
+                <TextBlock Text="Please position your forehead in front" FontSize="30" Foreground="#FF6B4F01" Margin="10" Style="{StaticResource FaderStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" TextAlignment="Center"/>
+                <TextBlock Text="of the sensor to begin." FontSize="30" Foreground="#FF6B4F01" Margin="10" Style="{StaticResource FaderStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" TextAlignment="Center"/>
 
-                <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="10,0" Foreground="White" Height="182"/>
+                <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="10,0" Foreground="White" Height="149"/>
                 <RichTextBox Height="98" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" Focusable="False" IsEnabled="False" Margin="0,0,10,0" Width="610">
                     <FlowDocument>
                         <Paragraph TextAlignment="Justify">
@@ -96,24 +99,10 @@
                 <Label Content="Strand Hotel Pte Ltd" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="36" Margin="10,0" Foreground="White"/>
                 <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="30" Margin="10,0" Foreground="White" Height="23"/>
 
-                <RichTextBox Height="389" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" Focusable="False" IsEnabled="False" Margin="10,0" Width="340" FontSize="33">
-                    <FlowDocument>
-                        <Paragraph FontFamily="Calibri" Margin="0" TextAlignment="Center">
-                            <Span Foreground="#FFE7E6E6">
-                                <Run Text="Please lift up your fringe (if any) and position your forehead within 20cm of the thermal sensor."/>
-                            </Span>
-                        </Paragraph>
-                        <Paragraph FontFamily="Calibri" Margin="0" TextAlignment="Center"/>
-                        <Paragraph FontFamily="Calibri" Margin="0" TextAlignment="Center">
-                            <Run Foreground="#FFE7E6E6" Text="You are required to lift up your fringe if it covers your forehead."/>
-                        </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
-
             </StackPanel>
             <StackPanel Grid.Column="1" HorizontalAlignment="Center" Height="462" Margin="140,204,140,54" VerticalAlignment="Center" Width="620">
                 <TextBlock x:Name="f2txtBlkTop" Text="Please position your forehead" FontSize="36" Foreground="#FF6B4F01" Margin="10" Style="{StaticResource FaderStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" TextAlignment="Center"/>
-                <TextBlock x:Name="f2txtBlkMid" Text="closer to the sensor." FontSize="36" Foreground="#FF6B4F01" Margin="10" Style="{StaticResource FaderStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" TextAlignment="Center"/>
+                <TextBlock x:Name="f2txtBlkMid" Text="within 20cm from the sensor." FontSize="36" Foreground="#FF6B4F01" Margin="10" Style="{StaticResource FaderStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" TextAlignment="Center"/>
 
                 <Label Content="" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="10,0" Foreground="White" Height="112"/>
                 <Label x:Name="f2lblDistance" Content="Distance: 50cm" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="36" Width="601" Margin="10,0,9,0" Foreground="#FF7C7C7C"/>
@@ -126,6 +115,7 @@
                     </FlowDocument>
                 </RichTextBox>
             </StackPanel>
+            <Image Margin="0,231,0,-57" Source="Image3.png"/>
         </Grid>
         <Grid x:Name="Frame3" MinWidth="1280" MinHeight="720" Margin="0,0,-6,-19" Width="1280" Visibility="Hidden">
             <Grid.ColumnDefinitions>
