@@ -9,3 +9,5 @@ Results can be displayed in a SSD1306 LCD, or as I did - be displayed in a C# WP
 This setup was deployed for hotel use in Singapore. 
 
 You will need the Arduino IDE, and Visual Studio for this code. 
+
+I decided to make this code public in the interest of social good, especially if this may help mankind combat COVID-19.
